@@ -1,0 +1,82 @@
+﻿@model LigaTabajara.Models.Classificacao
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Classificacao</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Time.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Time.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pontos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pontos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vitorias)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vitorias)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Empates)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empates)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Derrotas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Derrotas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GolsPro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GolsPro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GolsContra)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GolsContra)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SaldoGols)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SaldoGols)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

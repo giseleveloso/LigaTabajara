@@ -1,0 +1,63 @@
+﻿@model IEnumerable<LigaTabajara.Models.Partida>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeCasa.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeVisitante.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rodada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataHora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GolsTimeCasa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GolsTimeVisitante)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeCasa.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeVisitante.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rodada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataHora)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GolsTimeCasa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GolsTimeVisitante)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

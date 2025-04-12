@@ -1,0 +1,66 @@
+﻿@model LigaTabajara.Models.Partida
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Partida</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeCasa.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeCasa.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeVisitante.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeVisitante.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rodada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rodada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataHora)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataHora)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GolsTimeCasa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GolsTimeCasa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GolsTimeVisitante)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GolsTimeVisitante)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
