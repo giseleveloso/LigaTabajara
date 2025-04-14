@@ -18,8 +18,13 @@ namespace LigaTabajara.Controllers
         // GET: Classificacaos
         public ActionResult Index()
         {
-            var classificacaos = db.Classificacaos.Include(c => c.Time);
-            return View(classificacaos.ToList());
+            var classificacoes = db.Classificacaos
+                                   .Include(c => c.Time)
+                                   .OrderByDescending(c => c.Pontos)
+                                   .ThenByDescending(c => c.SaldoGols)
+                                   .ThenByDescending(c => c.GolsPro)
+                                   .ToList();
+            return View(classificacoes);
         }
 
         // GET: Classificacaos/Details/5

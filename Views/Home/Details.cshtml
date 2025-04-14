@@ -1,0 +1,68 @@
+﻿@model LigaTabajara.Models.Time
+@{
+    ViewBag.Title = "Detalhes do Time";
+    var isApto = (bool)ViewBag.IsApto;
+}
+
+<h2>@Model.Nome (@Model.Estado)</h2>
+
+<p><strong>Cidade:</strong> @Model.Cidade</p>
+<p><strong>Ano de Fundação:</strong> @Model.AnoFundacao</p>
+<p><strong>Estádio:</strong> @Model.Estadio</p>
+<p><strong>Capacidade:</strong> @Model.CapacidadeEstadio</p>
+<p><strong>Cores:</strong> @Model.CorPrimaria / @Model.CorSecundaria</p>
+
+<p>
+    <strong>Status do Time:</strong>
+    <span style="color:@(isApto ? "green" : "red")">
+        @(isApto ? "Apto para participar" : "Inapto para participar")
+    </span>
+</p>
+
+<hr />
+<h3>Jogadores (Total: @Model.Jogadores?.Count ?? 0)</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Posição</th>
+            <th>Data de Nascimento</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var jogador in Model.Jogadores)
+        {
+            <tr>
+                <td>@jogador.Nome</td>
+                <td>@jogador.Posicao</td>
+                <td>@jogador.DataNascimento.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<h3>Comissão Técnica (Total: @Model.ComissaoTecnica?.Count ?? 0)</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Cargo</th>
+            <th>Data de Nascimento</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var membro in Model.ComissaoTecnica)
+        {
+            <tr>
+                <td>@membro.Nome</td>
+                <td>@membro.Cargo</td>
+                <td>@membro.DataNascimento.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>ee     
+    @Html.ActionLink("Voltar para a lista", "Index")
+</p>

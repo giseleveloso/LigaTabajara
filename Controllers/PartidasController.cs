@@ -64,6 +64,104 @@ namespace LigaTabajara.Controllers
             return View(partida);
         }
 
+        // GET: Partidas/RegistrarResultado/5
+        public ActionResult RegistrarResultado(int id)
+        {
+            var partida = db.Partidas.Include(p => p.TimeCasa)
+                                     .Include(p => p.TimeVisitante)
+                                     .FirstOrDefault(p => p.Id == id);
+
+            if (partida == null) return HttpNotFound();
+            return View(partida);
+        }
+
+        // POST: Partidas/RegistrarResultado/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegistrarResultado(int id, int golsCasa, int golsVisitante)
+        {
+            var partida = db.Partidas.Find(id);
+            if (partida == null) return HttpNotFound();
+
+            partida.GolsTimeCasa = golsCasa;
+            partida.GolsTimeVisitante = golsVisitante;
+            db.SaveChanges();
+
+            AtualizarClassificacao(partida);
+
+            return RedirectToAction("Index");
+        }
+
+        private void AtualizarClassificacao(Partida partida)
+        {
+            var timeCasa = db.Classificacaos.FirstOrDefault(c => c.TimeId == partida.TimeCasaId);
+            var timeVisitante = db.Classificacaos.FirstOrDefault(c => c.TimeId == partida.TimeVisitanteId);
+
+            if (timeCasa == null)
+            {
+                timeCasa = new Classificacao { TimeId = partida.TimeCasaId };
+                db.Classificacaos.Add(timeCasa);
+            }
+            if (timeVisitante == null)
+            {
+                timeVisitante = new Classificacao { TimeId = partida.TimeVisitanteId };
+                db.Classificacaos.Add(timeVisitante);
+            }
+
+            timeCasa.GolsPro += partida.GolsTimeCasa;
+            timeCasa.GolsContra += partida.GolsTimeVisitante;
+
+            timeVisitante.GolsPro += partida.GolsTimeVisitante;
+            timeVisitante.GolsContra += partida.GolsTimeCasa;
+
+            timeCasa.SaldoGols = timeCasa.GolsPro - timeCasa.GolsContra;
+            timeVisitante.SaldoGols = timeVisitante.GolsPro - timeVisitante.GolsContra;
+
+            if (partida.GolsTimeCasa > partida.GolsTimeVisitante)
+            {
+                timeCasa.Vitorias++;
+                timeCasa.Pontos += 3;
+                timeVisitante.Derrotas++;
+            }
+            else if (partida.GolsTimeCasa < partida.GolsTimeVisitante)
+            {
+                timeVisitante.Vitorias++;
+                timeVisitante.Pontos += 3;
+                timeCasa.Derrotas++;
+            }
+            else
+            {
+                timeCasa.Empates++;
+                timeVisitante.Empates++;
+                timeCasa.Pontos += 1;
+                timeVisitante.Pontos += 1;
+            }
+
+            db.SaveChanges();
+        }
+
+
+        public ActionResult RegistrarGol(int partidaId)
+        {
+            ViewBag.JogadorId = new SelectList(db.Jogadors, "Id", "Nome");
+            ViewBag.PartidaId = partidaId;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegistrarGol([Bind(Include = "PartidaId,JogadorId,Minuto")] Gol gol)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Gols.Add(gol);
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = gol.PartidaId });
+            }
+            return View(gol);
+        }
+
+
         // GET: Partidas/Edit/5
         public ActionResult Edit(int? id)
         {
