@@ -20,14 +20,29 @@ namespace LigaTabajara.Controllers
                           .Include("ComissaoTecnica")
                           .ToList();
 
-            var timesAptos = times.Where(IsTimeApto1).ToList();
+            var timesAptos = times.Where(IsTimeApto).ToList();
+            foreach (var time in times)
+            {
+                bool apto = IsTimeApto(time);
+                var novoStatus = apto ? Status.Apto : Status.Inapto;
+
+                if (time.Status != novoStatus)
+                {
+                    time.Status = novoStatus;
+                    db.Entry(time).State = EntityState.Modified;
+                    timesAptos.Add(time);
+                }
+            }
+
+            db.SaveChanges();
+
             var statusLiga = (times.Count == 20 && timesAptos.Count == 20) ? Status.Apto : Status.Inapto;
 
             ViewBag.StatusLiga = statusLiga;
             return View(times.Select(t => new TimeStatusViewModel
             {
                 Time = t,
-                Status = IsTimeApto1(t) ? Status.Apto : Status.Inapto
+                Status = IsTimeApto(t) ? Status.Apto : Status.Inapto
             }).ToList());
         }
 
@@ -50,30 +65,22 @@ namespace LigaTabajara.Controllers
 
         private bool IsTimeApto(Time time)
         {
-            if (string.IsNullOrWhiteSpace(time.Nome) || string.IsNullOrWhiteSpace(time.Estado) ||
-                string.IsNullOrWhiteSpace(time.Cidade) || string.IsNullOrWhiteSpace(time.Estadio) ||
-                string.IsNullOrWhiteSpace(time.CorPrimaria) || string.IsNullOrWhiteSpace(time.CorSecundaria))
-                return false;
-
-            if (time.Jogadores == null || time.Jogadores.Count < 30)
-                return false;
-
-            if (time.ComissaoTecnica == null || time.ComissaoTecnica.Count < 5)
-                return false;
-
-            return time.ComissaoTecnica.Select(c => c.Cargo).Distinct().Count() == time.ComissaoTecnica.Count;
-        }
-
-
-        private bool IsTimeApto1(Time time)
-        {
             if (string.IsNullOrWhiteSpace(time.Nome) || time.Jogadores == null || time.ComissaoTecnica == null)
+            {
                 return false;
+            }
+            else if (time.Jogadores.Count < 30 || time.ComissaoTecnica.Count < 5)
+            {
 
-            if (time.Jogadores.Count < 30 || time.ComissaoTecnica.Count < 5)
                 return false;
+            }
+            else
+            {
+                time.Status = Status.Apto;
+                return time.ComissaoTecnica.Select(c => c.Cargo).Distinct().Count() == time.ComissaoTecnica.Count;
+            }
 
-            return time.ComissaoTecnica.Select(c => c.Cargo).Distinct().Count() == time.ComissaoTecnica.Count;
+
         }
 
         public ActionResult About()

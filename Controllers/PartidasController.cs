@@ -52,10 +52,32 @@ namespace LigaTabajara.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Rodada,DataHora,TimeCasaId,TimeVisitanteId,GolsTimeCasa,GolsTimeVisitante")] Partida partida)
         {
+            if (partida.TimeCasaId == partida.TimeVisitanteId)
+            {
+                ModelState.AddModelError("", "Um time não pode jogar contra ele mesmo.");
+            }
+
+           var partidasExistentes = db.Partidas
+            .Where(p =>
+                (p.TimeCasaId == partida.TimeCasaId && p.TimeVisitanteId == partida.TimeVisitanteId) ||
+                (p.TimeCasaId == partida.TimeVisitanteId && p.TimeVisitanteId == partida.TimeCasaId))
+                .ToList();
+
+            if (partidasExistentes.Count >= 2)
+            {
+                ModelState.AddModelError("", "Esses dois times já se enfrentaram duas vezes.");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Partidas.Add(partida);
                 db.SaveChanges();
+
+                if (partida.GolsTimeCasa>=0 && partida.GolsTimeVisitante>=0)
+                {
+                    AtualizarClassificacao(partida);
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -63,6 +85,19 @@ namespace LigaTabajara.Controllers
             ViewBag.TimeVisitanteId = new SelectList(db.Times, "Id", "Nome", partida.TimeVisitanteId);
             return View(partida);
         }
+
+        [HttpGet]
+        public JsonResult ObterProximaRodada(int timeId)
+        {
+            // Conta quantas partidas o time já participou (como casa ou visitante)
+            int partidasJogadas = db.Partidas
+                .Count(p => p.TimeCasaId == timeId || p.TimeVisitanteId == timeId);
+
+            int proximaRodada = partidasJogadas + 1;
+
+            return Json(proximaRodada, JsonRequestBehavior.AllowGet);
+        }
+
 
         // GET: Partidas/RegistrarResultado/5
         public ActionResult RegistrarResultado(int id)
@@ -155,11 +190,19 @@ namespace LigaTabajara.Controllers
             if (ModelState.IsValid)
             {
                 db.Gols.Add(gol);
+
+                var jogador = db.Jogadors.Find(gol.JogadorId);
+                if (jogador != null)
+                {
+                    jogador.Gols++;
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = gol.PartidaId });
             }
             return View(gol);
         }
+
 
 
         // GET: Partidas/Edit/5
