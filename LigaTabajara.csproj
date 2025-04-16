@@ -150,6 +150,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classificacao.cs" />
+    <Compile Include="Models\ArtilheiroViewModel.cs" />
     <Compile Include="Models\Gol.cs" />
     <Compile Include="Models\Partida.cs" />
     <Compile Include="Models\Comissao.cs" />
@@ -238,6 +239,7 @@
     <Content Include="Views\Classificacaos\Edit.cshtml" />
     <Content Include="Views\Classificacaos\Index.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
+    <Content Include="Views\Classificacaos\Artilharia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

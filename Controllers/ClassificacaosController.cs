@@ -115,6 +115,26 @@ namespace LigaTabajara.Controllers
             return View(classificacao);
         }
 
+
+        public ActionResult Artilharia()
+        {
+            var artilheiros = db.Gols
+                .GroupBy(g => g.Jogador)
+                .Select(g => new ArtilheiroViewModel
+                {
+                    JogadorId = g.Key.Id,
+                    Nome = g.Key.Nome,
+                    Time = g.Key.Time.Nome,
+                    Gols = g.Count()
+                })
+                .OrderByDescending(a => a.Gols)
+                .ThenBy(a => a.Nome)
+                .ToList();
+
+            return View(artilheiros);
+        }
+
+
         // POST: Classificacaos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

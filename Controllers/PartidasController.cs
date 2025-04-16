@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using LigaTabajara.Data;
 using LigaTabajara.Models;
+using Newtonsoft.Json;
 
 namespace LigaTabajara.Controllers
 {
@@ -50,7 +51,7 @@ namespace LigaTabajara.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Rodada,DataHora,TimeCasaId,TimeVisitanteId,GolsTimeCasa,GolsTimeVisitante")] Partida partida)
+        public ActionResult Create(string GolsCasaJson, string GolsVisitanteJson,[Bind(Include = "Id,Rodada,DataHora,TimeCasaId,TimeVisitanteId,GolsTimeCasa,GolsTimeVisitante")] Partida partida)
         {
             if (partida.TimeCasaId == partida.TimeVisitanteId)
             {
@@ -72,6 +73,26 @@ namespace LigaTabajara.Controllers
             {
                 db.Partidas.Add(partida);
                 db.SaveChanges();
+
+                // Desserializa os gols
+                var golsCasa = JsonConvert.DeserializeObject<List<Gol>>(GolsCasaJson);
+                var golsVisitante = JsonConvert.DeserializeObject<List<Gol>>(GolsVisitanteJson);
+
+                // Adiciona os gols ao banco, associando à partida
+                foreach (var gol in golsCasa)
+                {
+                    gol.PartidaId = partida.Id;
+                    db.Gols.Add(gol);
+                }
+
+                foreach (var gol in golsVisitante)
+                {
+                    gol.PartidaId = partida.Id;
+                    db.Gols.Add(gol);
+                }
+
+                db.SaveChanges();
+
 
                 if (partida.GolsTimeCasa>=0 && partida.GolsTimeVisitante>=0)
                 {

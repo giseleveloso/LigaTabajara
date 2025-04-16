@@ -62,6 +62,16 @@ namespace LigaTabajara.Controllers
             return View(jogador);
         }
 
+        public JsonResult PorTime(int timeId)
+        {
+            var jogadores = db.Jogadors
+                              .Where(j => j.TimeId == timeId)
+                              .Select(j => new { j.Id, j.Nome })
+                              .ToList();
+            return Json(jogadores, JsonRequestBehavior.AllowGet);
+        }
+
+
         // GET: Jogadors/Edit/5
         public ActionResult Edit(int? id)
         {

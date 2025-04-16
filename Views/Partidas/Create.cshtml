@@ -11,65 +11,139 @@
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        <h4>Partida</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Rodada, htmlAttributes: new { @class = "control-label col-md-2",@id="Rodada" })
-            
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Rodada, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Rodada, "", new { @class = "text-danger" })
-            </div>
-        </div>
+<div class="form-horizontal">
+    <h4>Partida</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rodada, htmlAttributes: new { @class = "control-label col-md-2", @id = "Rodada" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.DataHora, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DataHora, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DataHora, "", new { @class = "text-danger" })
-            </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Rodada, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Rodada, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TimeCasaId, "TimeCasaId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TimeCasaId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TimeCasaId, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DataHora, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DataHora, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DataHora, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TimeVisitanteId, "TimeVisitanteId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TimeVisitanteId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TimeVisitanteId, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.TimeCasaId, "TimeCasaId", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("TimeCasaId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.TimeCasaId, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.GolsTimeCasa, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.GolsTimeCasa, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GolsTimeCasa, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.TimeVisitanteId, "TimeVisitanteId", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("TimeVisitanteId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.TimeVisitanteId, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.GolsTimeVisitante, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.GolsTimeVisitante, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GolsTimeVisitante, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+    <div class="form-group">
+        @Html.LabelFor(model => model.GolsTimeCasa, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="input-group">
+                @Html.EditorFor(model => model.GolsTimeCasa, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "golsCasa" } })
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalGolCasa">+</button>
+                </span>
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.GolsTimeVisitante, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="input-group">
+                @Html.EditorFor(model => model.GolsTimeVisitante, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "golsVisitante" } })
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalGolVisitante">+</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Gols Time Casa -->
+    <div class="modal fade" id="modalGolCasa" tabindex="-1" role="dialog" aria-labelledby="golCasaLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="formGolCasa">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Adicionar Gol - Time da Casa</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="JogadorCasaId">Jogador</label>
+                            <select class="form-control" id="JogadorCasaId" name="JogadorId">
+                                <option value="">Selecione</option>
+                                <!-- Jogadores serão carregados via AJAX -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="MinutoCasa">Minuto</label>
+                            <input type="number" class="form-control" id="MinutoCasa" name="Minuto" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="adicionarGol('casa')">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Gols Time Visitante -->
+    <div class="modal fade" id="modalGolVisitante" tabindex="-1" role="dialog" aria-labelledby="golVisitanteLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="formGolVisitante">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Adicionar Gol - Time Visitante</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="JogadorVisitanteId">Jogador</label>
+                            <select class="form-control" id="JogadorVisitanteId" name="JogadorId">
+                                <option value="">Selecione</option>
+                                <!-- Jogadores serão carregados via AJAX -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="MinutoVisitante">Minuto</label>
+                            <input type="number" class="form-control" id="MinutoVisitante" name="Minuto" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="adicionarGol('visitante')">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Campos ocultos para enviar os gols -->
+    <input type="hidden" name="GolsCasaJson" id="GolsCasaJson" />
+    <input type="hidden" name="GolsVisitanteJson" id="GolsVisitanteJson" />
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
 <div>
@@ -79,6 +153,58 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 <script>
+    $('form').submit(function () {
+    $('#GolsCasaJson').val(JSON.stringify(golsCasa));
+    $('#GolsVisitanteJson').val(JSON.stringify(golsVisitante));
+});
+
+
+
+        var golsCasa = [];
+    var golsVisitante = [];
+
+    function adicionarGol(tipo) {
+        var jogadorId = tipo === 'casa' ? $('#JogadorCasaId').val() : $('#JogadorVisitanteId').val();
+        var minuto = tipo === 'casa' ? $('#MinutoCasa').val() : $('#MinutoVisitante').val();
+
+        if (!jogadorId || !minuto) {
+            alert("Selecione o jogador e o minuto.");
+            return;
+        }
+
+        if (tipo === 'casa') {
+            golsCasa.push({ jogadorId, minuto });
+            $('#golsCasa').val(golsCasa.length);
+            $('#modalGolCasa').modal('hide');
+        } else {
+            golsVisitante.push({ jogadorId, minuto });
+            $('#golsVisitante').val(golsVisitante.length);
+            $('#modalGolVisitante').modal('hide');
+        }
+    }
+
+    // Carrega jogadores via AJAX (exemplo simplificado)
+    function carregarJogadores(timeId, selectId) {
+        $.get('/Jogadors/PorTime', { timeId: timeId }, function (data) {
+            var select = $(selectId);
+            select.empty();
+            $.each(data, function (i, jogador) {
+                select.append($('<option>', { value: jogador.Id, text: jogador.Nome }));
+            });
+        });
+    }
+
+    // Ao abrir os modais, carrega os jogadores do time correspondente
+    $('#modalGolCasa').on('show.bs.modal', function () {
+        carregarJogadores($('#TimeCasaId').val(), '#JogadorCasaId');
+    });
+
+    $('#modalGolVisitante').on('show.bs.modal', function () {
+        carregarJogadores($('#TimeVisitanteId').val(), '#JogadorVisitanteId');
+    });
+
+
+
     $(document).ready(function () {
         $('#TimeCasaId').change(function () {
             var timeId = $(this).val();
