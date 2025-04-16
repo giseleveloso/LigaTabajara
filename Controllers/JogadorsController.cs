@@ -16,11 +16,35 @@ namespace LigaTabajara.Controllers
         private LigaTabajaraDbContext db = new LigaTabajaraDbContext();
 
         // GET: Jogadors
-        public ActionResult Index()
+        public ActionResult Index(string nome, string posicao, string pePreferido)
         {
-            var jogadors = db.Jogadors.Include(j => j.Time);
-            return View(jogadors.ToList());
+            var jogadores = db.Jogadors.Include(j => j.Time);
+
+            if (!string.IsNullOrEmpty(nome))
+                jogadores = jogadores.Where(j => j.Nome.Contains(nome));
+
+            if (!string.IsNullOrEmpty(posicao))
+                jogadores = jogadores.Where(j => j.Posicao.ToString() == posicao);
+
+            if (!string.IsNullOrEmpty(pePreferido))
+                jogadores = jogadores.Where(j => j.PePreferido.ToString() == pePreferido);
+
+            // Garantir que mesmo sem jogadores, as listas não sejam nulas
+            var posicoes = db.Jogadors.Select(j => j.Posicao.ToString()).Distinct().ToList();
+            var pes = db.Jogadors.Select(j => j.PePreferido.ToString()).Distinct().ToList();
+
+            ViewBag.Posicoes = posicoes.Any()
+                ? posicoes
+                : new List<string> { "Goleiro", "Zagueiro", "Lateral", "Meio-Campo", "Atacante" };
+
+            ViewBag.Pes = pes.Any()
+                ? pes
+                : new List<string> { "Destro", "Canhoto", "Ambidestro" };
+
+
+            return View(jogadores.ToList());
         }
+
 
         // GET: Jogadors/Details/5
         public ActionResult Details(int? id)

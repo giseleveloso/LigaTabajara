@@ -28,7 +28,11 @@ namespace LigaTabajara.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Time time = db.Times.Find(id);
+            var time = db.Times
+                 .Include(t => t.Jogadores)
+                 .Include(t => t.ComissaoTecnica)
+                 .FirstOrDefault(t => t.Id == id);
+
             if (time == null)
             {
                 return HttpNotFound();

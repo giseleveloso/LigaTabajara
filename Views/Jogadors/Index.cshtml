@@ -9,6 +9,17 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm("Index", "Jogadors", FormMethod.Get))
+{
+    <p>
+        Nome: @Html.TextBox("nome")
+        Posição: @Html.DropDownList("posicao", new SelectList(ViewBag.Posicoes as IEnumerable<string>), "Todas")
+        Pé Preferido: @Html.DropDownList("pePreferido", new SelectList(ViewBag.Pes as IEnumerable<string>), "Todos")
+        <input type="submit" value="Buscar" class="btn btn-default" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
@@ -44,44 +55,45 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Time.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DataNascimento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nacionalidade)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Posicao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NumCamisa)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Altura)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Peso)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PePreferido)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gols)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataNascimento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nacionalidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Posicao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumCamisa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Altura)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Peso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PePreferido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gols)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>

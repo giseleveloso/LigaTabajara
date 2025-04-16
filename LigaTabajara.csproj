@@ -240,6 +240,7 @@
     <Content Include="Views\Classificacaos\Index.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
     <Content Include="Views\Classificacaos\Artilharia.cshtml" />
+    <Content Include="Views\Partidas\JogosEstadio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

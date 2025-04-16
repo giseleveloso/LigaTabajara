@@ -16,9 +16,18 @@ namespace LigaTabajara.Controllers
         private LigaTabajaraDbContext db = new LigaTabajaraDbContext();
 
         // GET: Comissoes
-        public ActionResult Index()
+        public ActionResult Index(string nome, string cargo)
         {
             var comissaos = db.Comissaos.Include(c => c.Time);
+            if (!string.IsNullOrEmpty(nome))
+                comissaos = comissaos.Where(j => j.Nome.Contains(nome));
+
+            if (!string.IsNullOrEmpty(cargo))
+                comissaos = comissaos.Where(j => j.Cargo.ToString() == cargo);
+
+            var cargos = Enum.GetNames(typeof(Cargo)).ToList();
+            ViewBag.Cargos = new SelectList(cargos);
+
             return View(comissaos.ToList());
         }
 

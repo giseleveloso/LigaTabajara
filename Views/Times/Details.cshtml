@@ -83,6 +83,63 @@
         </dd>
 
     </dl>
+
+    <h4>Jogadores</h4>
+    @if (Model.Jogadores != null && Model.Jogadores.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Posição</th>
+                    <th>Data de Nascimento</th>
+                    <!-- Adicione outros campos se quiser -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var jogador in Model.Jogadores)
+                {
+                    <tr>
+                        <td>@jogador.Nome</td>
+                        <td>@jogador.Posicao</td>
+                        <td>@jogador.DataNascimento.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Não há jogadores cadastrados para este time.</p>
+    }
+
+
+    <h4>Comissão Técnica</h4>
+    @if (Model.ComissaoTecnica != null && Model.ComissaoTecnica.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Cargo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var membro in Model.ComissaoTecnica)
+                {
+                    <tr>
+                        <td>@membro.Nome</td>
+                        <td>@membro.Cargo</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Não há membros da comissão técnica cadastrados para este time.</p>
+    }
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

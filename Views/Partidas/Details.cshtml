@@ -59,6 +59,38 @@
         </dd>
 
     </dl>
+
+    <h4>Gols da Partida</h4>
+
+    @if (Model.Gols != null && Model.Gols.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Jogador</th>
+                    <th>Time</th>
+                    <th>Minuto</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var gol in Model.Gols.OrderBy(g => g.Minuto))
+                {
+                    var timeJogador = gol.Jogador?.Time?.Nome ?? "Desconhecido"; 
+                    <tr>
+                        <td>@gol.Jogador.Nome</td>
+                        <td>@timeJogador</td>
+                        <td>@gol.Minuto'</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Nenhum gol registrado nesta partida.</p>
+    }
+
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

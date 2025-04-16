@@ -1,0 +1,38 @@
+﻿@model IEnumerable<LigaTabajara.Models.Partida>
+
+<h2>Jogos e Estádios</h2>
+
+
+@using (Html.BeginForm("JogosEstadio", "Partidas", FormMethod.Get))
+{
+    <p>
+        Estádio: @Html.TextBox("estadio", Request["estadio"], new { @class = "form-control", style = "width:200px; display:inline;" })
+        Time da Casa: @Html.TextBox("timeCasa", Request["timeCasa"], new { @class = "form-control", style = "width:200px; display:inline;" })
+        Time Visitante: @Html.TextBox("timeVisitante", Request["timeVisitante"], new { @class = "form-control", style = "width:200px; display:inline;" })
+        <input type="submit" value="Filtrar" class="btn btn-primary" />
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Rodada</th>
+            <th>Data</th>
+            <th>Casa</th>
+            <th>Visitante</th>
+            <th>Estádio</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var partida in Model)
+        {
+            <tr>
+                <td>@partida.Rodada</td>
+                <td>@partida.DataHora.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@partida.TimeCasa.Nome</td>
+                <td>@partida.TimeVisitante.Nome</td>
+                <td>@partida.TimeCasa.Estadio</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -15,12 +15,11 @@
     <h4>Partida</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Rodada, htmlAttributes: new { @class = "control-label col-md-2", @id = "Rodada" })
 
+    <div class="form-group">
+        <label class="control-label col-md-2">Rodada sugerida</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Rodada, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Rodada, "", new { @class = "text-danger" })
+            <input type="text" class="form-control" value="Será atribuída automaticamente" readonly />
         </div>
     </div>
 
@@ -52,7 +51,7 @@
         @Html.LabelFor(model => model.GolsTimeCasa, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <div class="input-group">
-                @Html.EditorFor(model => model.GolsTimeCasa, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "golsCasa" } })
+                @Html.EditorFor(model => model.GolsTimeCasa, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "golsCasa", @value = "0" } })
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalGolCasa">+</button>
                 </span>
@@ -64,7 +63,7 @@
         @Html.LabelFor(model => model.GolsTimeVisitante, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <div class="input-group">
-                @Html.EditorFor(model => model.GolsTimeVisitante, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "golsVisitante" } })
+                @Html.EditorFor(model => model.GolsTimeVisitante, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "golsVisitante", @value = "0" } })
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalGolVisitante">+</button>
                 </span>
@@ -206,6 +205,8 @@
 
 
     $(document).ready(function () {
+        $('#golsCasa').val(0);
+        $('#golsVisitante').val(0);
         $('#TimeCasaId').change(function () {
             var timeId = $(this).val();
             if (timeId) {

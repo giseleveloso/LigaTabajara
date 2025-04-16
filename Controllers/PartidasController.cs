@@ -30,7 +30,11 @@ namespace LigaTabajara.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Partida partida = db.Partidas.Find(id);
+            var partida = db.Partidas
+                    .Include(p => p.TimeCasa)
+                    .Include(p => p.TimeVisitante)
+                    .Include(p => p.Gols.Select(g => g.Jogador))
+                    .FirstOrDefault(p => p.Id == id);
             if (partida == null)
             {
                 return HttpNotFound();
@@ -58,15 +62,44 @@ namespace LigaTabajara.Controllers
                 ModelState.AddModelError("", "Um time não pode jogar contra ele mesmo.");
             }
 
-           var partidasExistentes = db.Partidas
-            .Where(p =>
-                (p.TimeCasaId == partida.TimeCasaId && p.TimeVisitanteId == partida.TimeVisitanteId) ||
-                (p.TimeCasaId == partida.TimeVisitanteId && p.TimeVisitanteId == partida.TimeCasaId))
-                .ToList();
+            //VERIFICAÇÃO DE MANDANTE E VISITANTE
+            var partidasEntreTimes = db.Partidas
+    .Where(p =>
+        (p.TimeCasaId == partida.TimeCasaId && p.TimeVisitanteId == partida.TimeVisitanteId) ||
+        (p.TimeCasaId == partida.TimeVisitanteId && p.TimeVisitanteId == partida.TimeCasaId))
+    .ToList();
 
-            if (partidasExistentes.Count >= 2)
+            if (partidasEntreTimes.Count >= 2)
             {
                 ModelState.AddModelError("", "Esses dois times já se enfrentaram duas vezes.");
+            }
+            else if (partidasEntreTimes.Count == 1)
+            {
+                var jogoAnterior = partidasEntreTimes.First();
+
+                // Garante que o segundo jogo tenha mando de campo invertido
+                if (jogoAnterior.TimeCasaId == partida.TimeCasaId)
+                {
+                    ModelState.AddModelError("", "No segundo confronto, o mando de campo deve ser invertido.");
+                }
+            }
+            
+            int rodadasTimeCasa = db.Partidas
+            .Where(p => p.TimeCasaId == partida.TimeCasaId || p.TimeVisitanteId == partida.TimeCasaId)
+            .Select(p => p.Rodada)
+            .Distinct()
+            .Count();
+
+            partida.Rodada = rodadasTimeCasa + 1;
+
+            // Garantir que o time não jogue duas vezes na mesma rodada
+            bool jaJogouEssaRodada = db.Partidas.Any(p =>
+                p.Rodada == partida.Rodada &&
+                (p.TimeCasaId == partida.TimeCasaId || p.TimeVisitanteId == partida.TimeCasaId));
+
+            if (jaJogouEssaRodada)
+            {
+                ModelState.AddModelError("", $"O time da casa já tem partida registrada na rodada {partida.Rodada}.");
             }
 
             if (ModelState.IsValid)
@@ -129,6 +162,22 @@ namespace LigaTabajara.Controllers
 
             if (partida == null) return HttpNotFound();
             return View(partida);
+        }
+
+        //VIEW DE JOGOS E ESTÁDIOS
+        public ActionResult JogosEstadio(string estadio, string timeCasa,string timeVisitante)
+        {
+            var partidas = db.Partidas.Include(p => p.TimeCasa)
+                                      .Include(p => p.TimeVisitante)
+                                      .AsQueryable();
+
+            if (!string.IsNullOrEmpty(estadio))
+                partidas = partidas.Where(j => j.TimeCasa.Estadio.Contains(estadio));
+            if (!string.IsNullOrEmpty(timeCasa))
+                partidas = partidas.Where(j => j.TimeCasa.Nome.Contains(timeCasa));
+            if (!string.IsNullOrEmpty(timeVisitante))
+                partidas = partidas.Where(j => j.TimeVisitante.Nome.Contains(timeVisitante));
+            return View(partidas.ToList());
         }
 
         // POST: Partidas/RegistrarResultado/5

@@ -14,6 +14,7 @@
             AutomaticMigrationsEnabled = false;
         }
 
+        //SEED PARA CRIAR INICIALMENTE OS TIMES, JOGADORES E COMISSÃO DE FORMA QUE A LIGA ESTEJA APTA
         protected override void Seed(LigaTabajara.Data.LigaTabajaraDbContext context)
         {
             if (context.Times.Any()) return;
@@ -30,7 +31,7 @@
                     CapacidadeEstadio = 30000 + i * 100,
                     CorPrimaria = "Azul",
                     CorSecundaria = "Branco",
-                    Status = Status.Inapto, // Será avaliado depois
+                    Status = Status.Inapto,
                     Jogadores = new List<Jogador>(),
                     ComissaoTecnica = new List<Comissao>()
                 };
