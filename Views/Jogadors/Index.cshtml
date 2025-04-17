@@ -50,7 +50,6 @@
                         <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Posição</th>
                         <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Camisa</th>
                         <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Características</th>
-                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Gols</th>
                         <th class="text-right py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Ações</th>
                     </tr>
                 </thead>
@@ -94,9 +93,7 @@
                                     <span class="text-sm">@item.PePreferido</span>
                                 </div>
                             </td>
-                            <td class="py-3 px-4 border-b border-gray-200 text-center font-bold">
-                                @item.Gols
-                            </td>
+                            
                             <td class="py-3 px-4 border-b border-gray-200 text-right">
                                 <div class="flex space-x-2 justify-end">
                                     <a href="@Url.Action("Edit", new { id = item.Id })" class="text-blue-600 hover:text-blue-800">

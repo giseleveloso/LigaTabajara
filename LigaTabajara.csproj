@@ -148,6 +148,10 @@
     <Compile Include="Migrations\202504141425421_UpdateAlturaPesoTipo.Designer.cs">
       <DependentUpon>202504141425421_UpdateAlturaPesoTipo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202504171659251_MigrationFinal.cs" />
+    <Compile Include="Migrations\202504171659251_MigrationFinal.Designer.cs">
+      <DependentUpon>202504171659251_MigrationFinal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classificacao.cs" />
     <Compile Include="Models\ArtilheiroViewModel.cs" />
@@ -281,6 +285,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504141425421_UpdateAlturaPesoTipo.resx">
       <DependentUpon>202504141425421_UpdateAlturaPesoTipo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504171659251_MigrationFinal.resx">
+      <DependentUpon>202504171659251_MigrationFinal.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
