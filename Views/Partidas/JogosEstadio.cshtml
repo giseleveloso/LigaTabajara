@@ -1,38 +1,68 @@
-﻿@model IEnumerable<LigaTabajara.Models.Partida>
+﻿# Página de Jogos e Estádios
 
-<h2>Jogos e Estádios</h2>
-
-
-@using (Html.BeginForm("JogosEstadio", "Partidas", FormMethod.Get))
-{
-    <p>
-        Estádio: @Html.TextBox("estadio", Request["estadio"], new { @class = "form-control", style = "width:200px; display:inline;" })
-        Time da Casa: @Html.TextBox("timeCasa", Request["timeCasa"], new { @class = "form-control", style = "width:200px; display:inline;" })
-        Time Visitante: @Html.TextBox("timeVisitante", Request["timeVisitante"], new { @class = "form-control", style = "width:200px; display:inline;" })
-        <input type="submit" value="Filtrar" class="btn btn-primary" />
-    </p>
+```html
+@model IEnumerable<LigaTabajara.Models.Partida>
+@{
+    ViewBag.Title = "Jogos e Estádios";
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Rodada</th>
-            <th>Data</th>
-            <th>Casa</th>
-            <th>Visitante</th>
-            <th>Estádio</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var partida in Model)
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Jogos e Estádios</h2>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        @using (Html.BeginForm("JogosEstadio", "Partidas", FormMethod.Get, new { @class = "space-y-4 md:space-y-0 md:grid md:grid-cols-4 md:gap-4" }))
         {
-            <tr>
-                <td>@partida.Rodada</td>
-                <td>@partida.DataHora.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>@partida.TimeCasa.Nome</td>
-                <td>@partida.TimeVisitante.Nome</td>
-                <td>@partida.TimeCasa.Estadio</td>
-            </tr>
+            <div>
+                <label for="estadio" class="block text-sm font-medium text-gray-700 mb-1">Estádio:</label>
+                @Html.TextBox("estadio", Request["estadio"], new { @class = "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" })
+            </div>
+
+            <div>
+                <label for="timeCasa" class="block text-sm font-medium text-gray-700 mb-1">Time da Casa:</label>
+                @Html.TextBox("timeCasa", Request["timeCasa"], new { @class = "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" })
+            </div>
+
+            <div>
+                <label for="timeVisitante" class="block text-sm font-medium text-gray-700 mb-1">Time Visitante:</label>
+                @Html.TextBox("timeVisitante", Request["timeVisitante"], new { @class = "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" })
+            </div>
+
+            <div class="flex items-end">
+                <button type="submit" class="bg-gray-800 hover:bg-gray-900 text-white font-medium py-2 px-4 rounded-md transition w-full md:w-auto">
+                    <i class="fas fa-search mr-1"></i> Filtrar
+                </button>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Rodada</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Data</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Casa</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Visitante</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Estádio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var partida in Model)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4 border-b border-gray-200">@partida.Rodada</td>
+                            <td class="py-3 px-4 border-b border-gray-200">@partida.DataHora.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium text-gray-900">@partida.TimeCasa.Nome</td>
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium text-gray-900">@partida.TimeVisitante.Nome</td>
+                            <td class="py-3 px-4 border-b border-gray-200">@partida.TimeCasa.Estadio</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+```

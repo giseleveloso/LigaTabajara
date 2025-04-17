@@ -1,23 +1,65 @@
-﻿@model List<LigaTabajara.Models.ArtilheiroViewModel >
+﻿# Página de Artilharia
 
-<h2>Artilharia</h2>
+```html
+@model List<LigaTabajara.Models.ArtilheiroViewModel>
+@{
+    ViewBag.Title = "Artilharia";
+}
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Jogador</th>
-            <th>Time</th>
-            <th>Gols</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var artilheiro in Model)
-        {
-            <tr>
-                <td>@artilheiro.Nome</td>
-                <td>@artilheiro.Time</td>
-                <td>@artilheiro.Gols</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Artilharia</h2>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Posição</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Jogador</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Time</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Gols</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int posicao = 1;
+                        var topArtilheiros = Model.Take(3).ToList();
+                    }
+                    @foreach (var artilheiro in Model)
+                    {
+                        string rowClass = "";
+                        if (posicao <= 3)
+                        {
+                            rowClass = "bg-yellow-50";
+                        }
+                        <tr class="hover:bg-gray-50 @rowClass">
+                            <td class="py-3 px-4 border-b border-gray-200 text-center font-bold">
+                                @if (posicao <= 3)
+                                {
+                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500 text-white font-bold">@(posicao)</span>
+                                }
+                                else
+                                {
+                                    @(posicao)
+                                }
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium text-gray-900">
+                                @artilheiro.Nome
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                @artilheiro.Time
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center font-bold">
+                                @artilheiro.Gols
+                            </td>
+                        </tr>
+                        posicao++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+```

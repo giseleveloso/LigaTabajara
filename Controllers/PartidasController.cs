@@ -282,7 +282,10 @@ namespace LigaTabajara.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Partida partida = db.Partidas.Find(id);
+            Partida partida = db.Partidas
+        .Include(p => p.TimeCasa)
+        .Include(p => p.TimeVisitante)
+        .FirstOrDefault(p => p.Id == id);
             if (partida == null)
             {
                 return HttpNotFound();
@@ -317,7 +320,10 @@ namespace LigaTabajara.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Partida partida = db.Partidas.Find(id);
+            Partida partida = db.Partidas
+        .Include(p => p.TimeCasa)
+        .Include(p => p.TimeVisitante)
+        .FirstOrDefault(p => p.Id == id);
             if (partida == null)
             {
                 return HttpNotFound();

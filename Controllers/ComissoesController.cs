@@ -38,7 +38,7 @@ namespace LigaTabajara.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comissao comissao = db.Comissaos.Find(id);
+            Comissao comissao = db.Comissaos.Include(p => p.Time).FirstOrDefault(p => p.Id == id);
             if (comissao == null)
             {
                 return HttpNotFound();
@@ -72,7 +72,7 @@ namespace LigaTabajara.Controllers
             {
                 db.Comissaos.Add(comissao);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.TimeId = new SelectList(db.Times, "Id", "Nome", comissao.TimeId);
@@ -117,7 +117,7 @@ namespace LigaTabajara.Controllers
             {
                 db.Entry(comissao).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.TimeId = new SelectList(db.Times, "Id", "Nome", comissao.TimeId);
@@ -132,7 +132,9 @@ namespace LigaTabajara.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comissao comissao = db.Comissaos.Find(id);
+            Comissao comissao = db.Comissaos
+                .Include(p => p.Time)
+                .FirstOrDefault(p => p.Id == id);
             if (comissao == null)
             {
                 return HttpNotFound();

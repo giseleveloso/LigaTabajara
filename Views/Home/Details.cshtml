@@ -4,65 +4,145 @@
     var isApto = (bool)ViewBag.IsApto;
 }
 
-<h2>@Model.Nome (@Model.Estado)</h2>
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <div class="flex items-center mb-6">
+        <a href="@Url.Action("Index")" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-md transition mr-4">
+            <i class="fas fa-arrow-left mr-1"></i> Voltar
+        </a>
+        <h2 class="text-3xl font-bold">@Model.Nome</h2>
+    </div>
 
-<p><strong>Cidade:</strong> @Model.Cidade</p>
-<p><strong>Ano de Fundação:</strong> @Model.AnoFundacao</p>
-<p><strong>Estádio:</strong> @Model.Estadio</p>
-<p><strong>Capacidade:</strong> @Model.CapacidadeEstadio</p>
-<p><strong>Cores:</strong> @Model.CorPrimaria / @Model.CorSecundaria</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-md p-6 col-span-1">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Informações do Clube</h3>
 
-<p>
-    <strong>Status do Time:</strong>
-    <span style="color:@(isApto ? "green" : "red")">
-        @(isApto ? "Apto para participar" : "Inapto para participar")
-    </span>
-</p>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="text-gray-600">Estado:</div>
+                <div class="font-medium">@Model.Estado</div>
 
-<hr />
-<h3>Jogadores (Total: @Model.Jogadores?.Count ?? 0)</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Posição</th>
-            <th>Data de Nascimento</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var jogador in Model.Jogadores)
-        {
-            <tr>
-                <td>@jogador.Nome</td>
-                <td>@jogador.Posicao</td>
-                <td>@jogador.DataNascimento.ToShortDateString()</td>
-            </tr>
-        }
-    </tbody>
-</table>
+                <div class="text-gray-600">Cidade:</div>
+                <div class="font-medium">@Model.Cidade</div>
 
-<hr />
-<h3>Comissão Técnica (Total: @Model.ComissaoTecnica?.Count ?? 0)</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Cargo</th>
-            <th>Data de Nascimento</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var membro in Model.ComissaoTecnica)
-        {
-            <tr>
-                <td>@membro.Nome</td>
-                <td>@membro.Cargo</td>
-                <td>@membro.DataNascimento.ToShortDateString()</td>
-            </tr>
-        }
-    </tbody>
-</table>
+                <div class="text-gray-600">Fundação:</div>
+                <div class="font-medium">@Model.AnoFundacao</div>
 
-<p>ee     
-    @Html.ActionLink("Voltar para a lista", "Index")
-</p>
+                <div class="text-gray-600">Estádio:</div>
+                <div class="font-medium">@Model.Estadio</div>
+
+                <div class="text-gray-600">Capacidade:</div>
+                <div class="font-medium">@Model.CapacidadeEstadio.ToString("N0") pessoas</div>
+
+                <div class="text-gray-600">Cores:</div>
+                <div class="flex items-center">
+                    <span class="inline-block w-4 h-4 rounded-full mr-1" style="background-color: @Model.CorPrimaria"></span>
+                    <span class="inline-block w-4 h-4 rounded-full" style="background-color: @Model.CorSecundaria"></span>
+                </div>
+            </div>
+
+            <div class="mt-4 pt-2 border-t">
+                <div class="text-gray-600 mb-2">Status do Time:</div>
+                @if (isApto)
+                {
+                    <div class="bg-green-100 text-green-800 px-3 py-2 rounded-md font-medium">
+                        Apto para participar
+                    </div>
+                }
+                else
+                {
+                    <div class="bg-red-100 text-red-800 px-3 py-2 rounded-md font-medium">
+                        Inapto para participar
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 col-span-2">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Jogadores (Total: @Model.Jogadores?.Count ?? 0)</h3>
+                <a href="@Url.Action("Create", "Jogadores", new { timeId = Model.Id })" class="text-blue-600 hover:text-blue-800">
+                    + Adicionar Jogador
+                </a>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="text-left py-2 px-3 font-medium text-gray-700 border-b">Nome</th>
+                            <th class="text-left py-2 px-3 font-medium text-gray-700 border-b">Posição</th>
+                            <th class="text-left py-2 px-3 font-medium text-gray-700 border-b">Data de Nascimento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Jogadores != null && Model.Jogadores.Any())
+                        {
+                            foreach (var jogador in Model.Jogadores)
+                            {
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-2 px-3 border-b border-gray-200">@jogador.Nome</td>
+                                    <td class="py-2 px-3 border-b border-gray-200">@jogador.Posicao</td>
+                                    <td class="py-2 px-3 border-b border-gray-200">@jogador.DataNascimento.ToShortDateString()</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="py-4 text-center text-gray-500">Nenhum jogador cadastrado</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-gray-800">Comissão Técnica (Total: @Model.ComissaoTecnica?.Count ?? 0)</h3>
+            <a href="#" class="text-blue-600 hover:text-blue-800">
+                + Adicionar Membro
+            </a>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-50">
+                        <th class="text-left py-2 px-3 font-medium text-gray-700 border-b">Nome</th>
+                        <th class="text-left py-2 px-3 font-medium text-gray-700 border-b">Cargo</th>
+                        <th class="text-left py-2 px-3 font-medium text-gray-700 border-b">Data de Nascimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ComissaoTecnica != null && Model.ComissaoTecnica.Any())
+                    {
+                        foreach (var membro in Model.ComissaoTecnica)
+                        {
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-2 px-3 border-b border-gray-200">@membro.Nome</td>
+                                <td class="py-2 px-3 border-b border-gray-200">@membro.Cargo</td>
+                                <td class="py-2 px-3 border-b border-gray-200">@membro.DataNascimento.ToShortDateString()</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="py-4 text-center text-gray-500">Nenhum membro da comissão técnica cadastrado</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="flex space-x-4">
+        <a href="@Url.Action("Edit", "Times", new { id = Model.Id })" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition">
+            Editar Time
+        </a>
+        <a href="@Url.Action("Index")" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-md transition">
+            Voltar para a lista
+        </a>
+    </div>
+</div>

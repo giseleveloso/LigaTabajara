@@ -53,7 +53,7 @@ namespace LigaTabajara.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Jogador jogador = db.Jogadors.Find(id);
+            Jogador jogador = db.Jogadors.Include(p => p.Time).FirstOrDefault(p => p.Id == id);
             if (jogador == null)
             {
                 return HttpNotFound();
@@ -136,7 +136,7 @@ namespace LigaTabajara.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Jogador jogador = db.Jogadors.Find(id);
+            Jogador jogador = db.Jogadors.Include(j => j.Time).FirstOrDefault(j => j.Id == id);
             if (jogador == null)
             {
                 return HttpNotFound();

@@ -1,98 +1,61 @@
 ﻿@model LigaTabajara.Models.Jogador
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes do Jogador";
 }
 
-<h2>Details</h2>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Detalhes do Jogador</h2>
+        <div class="space-x-2">
+            @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition" })
+            @Html.ActionLink("Voltar", "Index", null, new { @class = "inline-block bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-md transition" })
+        </div>
+    </div>
 
-<div>
-    <h4>Jogador</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Time.Nome)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Time.Nome)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DataNascimento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DataNascimento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Nacionalidade)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Nacionalidade)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Posicao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Posicao)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NumCamisa)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NumCamisa)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Altura)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Altura)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Peso)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Peso)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PePreferido)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PePreferido)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Gols)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Gols)
-        </dd>
-
-    </dl>
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Informações do Jogador</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <p class="text-sm font-medium text-gray-500">Time</p>
+                <p class="text-gray-900">@Model.Time.Nome</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Nome</p>
+                <p class="text-gray-900">@Model.Nome</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Data de Nascimento</p>
+                <p class="text-gray-900">@Model.DataNascimento.ToString("dd/MM/yyyy")</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Nacionalidade</p>
+                <p class="text-gray-900">@Model.Nacionalidade</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Posição</p>
+                <p class="text-gray-900">@Model.Posicao</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Número da Camisa</p>
+                <p class="text-gray-900">@Model.NumCamisa</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Altura</p>
+                <p class="text-gray-900">@Model.Altura m</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Peso</p>
+                <p class="text-gray-900">@Model.Peso kg</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Pé Preferido</p>
+                <p class="text-gray-900">@Model.PePreferido</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Gols</p>
+                <p class="text-gray-900">@Model.Gols</p>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

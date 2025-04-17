@@ -1,147 +1,107 @@
 ﻿@model LigaTabajara.Models.Time
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes do Time";
 }
 
-<h2>Details</h2>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Detalhes do Time</h2>
+        <div class="space-x-2">
+            @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition" })
+            @Html.ActionLink("Voltar", "Index", null, new { @class = "inline-block bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-md transition" })
+        </div>
+    </div>
 
-<div>
-    <h4>Time</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Informações do Time</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <p class="text-sm font-medium text-gray-500">Nome</p>
+                <p class="text-gray-900">@Model.Nome</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Cidade</p>
+                <p class="text-gray-900">@Model.Cidade - @Model.Estado</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Ano de Fundação</p>
+                <p class="text-gray-900">@Model.AnoFundacao</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Estádio</p>
+                <p class="text-gray-900">@Model.Estadio (@Model.CapacidadeEstadio pessoas)</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Cores</p>
+                <p class="text-gray-900">@Model.CorPrimaria / @Model.CorSecundaria</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Status</p>
+                <p class="text-gray-900">@Model.Status</p>
+            </div>
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Jogadores</h3>
+        @if (Model.Jogadores != null && Model.Jogadores.Any())
+        {
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Nome</th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Posição</th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Data de Nascimento</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach (var jogador in Model.Jogadores)
+                        {
+                            <tr>
+                                <td class="px-4 py-2">@jogador.Nome</td>
+                                <td class="px-4 py-2">@jogador.Posicao</td>
+                                <td class="px-4 py-2">@jogador.DataNascimento.ToString("dd/MM/yyyy")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-gray-600">Não há jogadores cadastrados para este time.</p>
+        }
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Cidade)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cidade)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AnoFundacao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AnoFundacao)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Estadio)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Estadio)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CapacidadeEstadio)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CapacidadeEstadio)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CorPrimaria)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CorPrimaria)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CorSecundaria)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CorSecundaria)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-    </dl>
-
-    <h4>Jogadores</h4>
-    @if (Model.Jogadores != null && Model.Jogadores.Any())
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Posição</th>
-                    <th>Data de Nascimento</th>
-                    <!-- Adicione outros campos se quiser -->
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var jogador in Model.Jogadores)
-                {
-                    <tr>
-                        <td>@jogador.Nome</td>
-                        <td>@jogador.Posicao</td>
-                        <td>@jogador.DataNascimento.ToString("dd/MM/yyyy")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>Não há jogadores cadastrados para este time.</p>
-    }
-
-
-    <h4>Comissão Técnica</h4>
-    @if (Model.ComissaoTecnica != null && Model.ComissaoTecnica.Any())
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Cargo</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var membro in Model.ComissaoTecnica)
-                {
-                    <tr>
-                        <td>@membro.Nome</td>
-                        <td>@membro.Cargo</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>Não há membros da comissão técnica cadastrados para este time.</p>
-    }
-
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Comissão Técnica</h3>
+        @if (Model.ComissaoTecnica != null && Model.ComissaoTecnica.Any())
+        {
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Nome</th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Cargo</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach (var membro in Model.ComissaoTecnica)
+                        {
+                            <tr>
+                                <td class="px-4 py-2">@membro.Nome</td>
+                                <td class="px-4 py-2">@membro.Cargo</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-gray-600">Não há membros da comissão técnica cadastrados para este time.</p>
+        }
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

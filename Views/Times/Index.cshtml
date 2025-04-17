@@ -1,81 +1,99 @@
 ﻿@model IEnumerable<LigaTabajara.Models.Time>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Times";
 }
 
-<h2>Index</h2>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Times</h2>
+        <a href="@Url.Action("Create")" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition">
+            Adicionar Time
+        </a>
+    </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cidade)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Estado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AnoFundacao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Estadio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CapacidadeEstadio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CorPrimaria)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CorSecundaria)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th></th>
-    </tr>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Nome</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Cidade</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Estado</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Fundação</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Estádio</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Capacidade</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Cores</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Status</th>
+                        <th class="text-right py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium text-gray-900">
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                @Html.DisplayFor(modelItem => item.Cidade)
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                @Html.DisplayFor(modelItem => item.Estado)
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center">
+                                @Html.DisplayFor(modelItem => item.AnoFundacao)
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                @Html.DisplayFor(modelItem => item.Estadio)
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center">
+                                @String.Format("{0:N0}", item.CapacidadeEstadio)
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center">
+                                <div class="flex items-center justify-center space-x-4">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-4 h-4 rounded-full border" style="background-color: @item.CorPrimaria"></div>
+                                        <span class="text-sm text-gray-700">@item.CorPrimaria</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-4 h-4 rounded-full border" style="background-color: @item.CorSecundaria"></div>
+                                        <span class="text-sm text-gray-700">@item.CorSecundaria</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center">
+                                @if (item.Status.ToString() == "Apto")
+                                {
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Apto
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        Inapto
+                                    </span>
+                                }
+                            </td>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cidade)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Estado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AnoFundacao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Estadio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CapacidadeEstadio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CorPrimaria)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CorSecundaria)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
 
-</table>
+                            <td class="py-3 px-4 border-b border-gray-200 text-right">
+                                <div class="flex space-x-2 justify-end">
+                                    <a href="@Url.Action("Edit", new { id = item.Id })" class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("Details", new { id = item.Id })" class="text-gray-600 hover:text-gray-800">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", new { id = item.Id })" class="text-red-600 hover:text-red-800">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -3,28 +3,64 @@
     ViewBag.Title = "Página Inicial";
 }
 
-<h2>Bem-vindo à Liga Tabajara!</h2>
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <div class="bg-gradient-to-r from-green-700 to-green-900 text-white p-6 rounded-lg shadow-lg mb-8">
+        <h2 class="text-3xl font-bold mb-2">Bem-vindo à Liga Tabajara!</h2>
+        <p class="text-xl">
+            Status da Liga:
+            <span class="font-bold bg-green-600 px-3 py-1 rounded-md">@ViewBag.StatusLiga</span>
+        </p>
+    </div>
 
-<p>Status da Liga: <strong>@ViewBag.StatusLiga</strong></p>
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-2xl font-bold text-gray-800">Times Participantes</h3>
+            <a href="@Url.Action("Create", "Times")" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition">
+                Adicionar Time
+            </a>
+        </div>
 
-<hr />
-<h3>Times Participantes</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nome do Time</th>
-            <th>Status</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Time.Nome</td>
-                <td>@item.Status</td>
-                <td>@Html.ActionLink("Ver detalhes", "Details", "Times", new { id = item.Time.Id }, null)</td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Nome do Time</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Status</th>
+                        <th class="text-right py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                <div class="font-medium text-gray-900">@item.Time.Nome</div>
+                                <div class="text-sm text-gray-500">@item.Time.Cidade, @item.Time.Estado</div>
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                @if (item.Status.ToString() == "Apto")
+                                {
+                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-medium">
+                                        @item.Status
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm font-medium">
+                                        @item.Status
+                                    </span>
+                                }
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-right">
+                                <a href="@Url.Action("Details", "Times", new { id = item.Time.Id })"
+                                   class="text-blue-600 hover:text-blue-800 mr-2">
+                                    Ver detalhes
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

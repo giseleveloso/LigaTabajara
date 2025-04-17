@@ -1,72 +1,101 @@
 ﻿@model LigaTabajara.Models.Partida
-
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Excluir Partida";
 }
 
-<h2>Delete</h2>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Excluir Partida</h2>
+    </div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Partida</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeCasa.Nome)
-        </dt>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-6">
+            <div class="mb-6">
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-triangle text-red-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-lg font-medium text-red-800">
+                                Tem certeza que deseja excluir esta partida?
+                            </h3>
+                            <p class="text-red-700 mt-1">
+                                Esta ação não pode ser desfeita. Todos os dados associados a esta partida serão removidos permanentemente.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.TimeCasa.Nome)
-        </dd>
+            <div class="flex flex-col md:flex-row">
+                <div class="w-full md:w-1/4 mb-4 md:mb-0 md:pr-4">
+                    <div class="bg-gray-100 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold">Rodada @Model.Rodada</div>
+                        <div class="mt-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold">@Model.TimeCasa.Nome</span>
+                                <span class="text-xl font-bold">@Model.GolsTimeCasa</span>
+                            </div>
+                            <div class="text-xs text-gray-500 my-1">vs</div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold">@Model.TimeVisitante.Nome</span>
+                                <span class="text-xl font-bold">@Model.GolsTimeVisitante</span>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-gray-600 text-sm">
+                            @Model.DataHora.ToString("dd/MM/yyyy HH:mm")
+                        </div>
+                    </div>
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeVisitante.Nome)
-        </dt>
+                <div class="w-full md:w-3/4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6">
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Time da Casa</p>
+                            <p class="text-gray-900">@Model.TimeCasa.Nome</p>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.TimeVisitante.Nome)
-        </dd>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Time Visitante</p>
+                            <p class="text-gray-900">@Model.TimeVisitante.Nome</p>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Rodada)
-        </dt>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Rodada</p>
+                            <p class="text-gray-900">@Model.Rodada</p>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Rodada)
-        </dd>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Data e Hora</p>
+                            <p class="text-gray-900">@Model.DataHora.ToString("dd/MM/yyyy HH:mm")</p>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DataHora)
-        </dt>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Gols do Time da Casa</p>
+                            <p class="text-gray-900 font-bold">@Model.GolsTimeCasa</p>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.DataHora)
-        </dd>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Gols do Time Visitante</p>
+                            <p class="text-gray-900 font-bold">@Model.GolsTimeVisitante</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.GolsTimeCasa)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.GolsTimeCasa)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.GolsTimeVisitante)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.GolsTimeVisitante)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <div class="flex justify-end mt-6 space-x-2">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition">
+                        <i class="fas fa-trash mr-1"></i> Excluir
+                    </button>
+                }
+                <a href="@Url.Action("Index")" class="bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-md transition">
+                    Cancelar
+                </a>
+            </div>
         </div>
-    }
+    </div>
 </div>

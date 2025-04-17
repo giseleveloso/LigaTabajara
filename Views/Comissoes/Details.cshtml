@@ -1,50 +1,37 @@
 ﻿@model LigaTabajara.Models.Comissao
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes da Comissão Técnica";
 }
 
-<h2>Details</h2>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Detalhes da Comissão Técnica</h2>
+        <div class="space-x-2">
+            @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition" })
+            @Html.ActionLink("Voltar", "Index", null, new { @class = "inline-block bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-md transition" })
+        </div>
+    </div>
 
-<div>
-    <h4>Comissao</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Time.Nome)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Time.Nome)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Cargo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cargo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DataNascimento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DataNascimento)
-        </dd>
-
-    </dl>
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Informações do Membro</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <p class="text-sm font-medium text-gray-500">Time</p>
+                <p class="text-gray-900">@Model.Time.Nome</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Nome</p>
+                <p class="text-gray-900">@Model.Nome</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Cargo</p>
+                <p class="text-gray-900">@Model.Cargo</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Data de Nascimento</p>
+                <p class="text-gray-900">@Model.DataNascimento.ToString("dd/MM/yyyy")</p>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
