@@ -18,8 +18,13 @@ namespace LigaTabajara.Controllers
         // GET: Classificacaos
         public ActionResult Index()
         {
-            var classificacaos = db.Classificacaos.Include(c => c.Time);
-            return View(classificacaos.ToList());
+            var classificacoes = db.Classificacaos
+                                   .Include(c => c.Time)
+                                   .OrderByDescending(c => c.Pontos)
+                                   .ThenByDescending(c => c.SaldoGols)
+                                   .ThenByDescending(c => c.GolsPro)
+                                   .ToList();
+            return View(classificacoes);
         }
 
         // GET: Classificacaos/Details/5
@@ -109,6 +114,26 @@ namespace LigaTabajara.Controllers
             }
             return View(classificacao);
         }
+
+
+        public ActionResult Artilharia()
+        {
+            var artilheiros = db.Gols
+                .GroupBy(g => g.Jogador)
+                .Select(g => new ArtilheiroViewModel
+                {
+                    JogadorId = g.Key.Id,
+                    Nome = g.Key.Nome,
+                    Time = g.Key.Time.Nome,
+                    Gols = g.Count()
+                })
+                .OrderByDescending(a => a.Gols)
+                .ThenBy(a => a.Nome)
+                .ToList();
+
+            return View(artilheiros);
+        }
+
 
         // POST: Classificacaos/Delete/5
         [HttpPost, ActionName("Delete")]

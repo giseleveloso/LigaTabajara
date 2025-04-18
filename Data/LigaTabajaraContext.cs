@@ -19,6 +19,8 @@ namespace LigaTabajara.Data
         {
         }
 
+        public System.Data.Entity.DbSet<LigaTabajara.Models.Gol> Gols { get; set; }
+
         public System.Data.Entity.DbSet<LigaTabajara.Models.Jogador> Jogadors { get; set; }
 
         public System.Data.Entity.DbSet<LigaTabajara.Models.Time> Times { get; set; }

@@ -1,96 +1,156 @@
 ﻿@model LigaTabajara.Models.Time
-
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Excluir Time";
 }
 
-<h2>Delete</h2>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Excluir Time</h2>
+    </div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Time</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-6">
+            @if (ViewBag.TemReferencias == true)
+            {
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-triangle text-yellow-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-lg font-medium text-yellow-800">
+                                Não é possível excluir este time
+                            </h3>
+                            <p class="text-yellow-700 mt-1">
+                                Este time possui os seguintes registros associados:
+                            </p>
+                            <ul class="list-disc ml-5 mt-2 text-yellow-700">
+                                @if (ViewBag.TemPartidas == true)
+                                {
+                                    <li>Partidas onde este time participa</li>
+                                }
+                                @if (ViewBag.TemJogadores == true)
+                                {
+                                    <li>Jogadores associados a este time</li>
+                                }
+                                @if (ViewBag.TemComissao == true)
+                                {
+                                    <li>Membros da comissão técnica deste time</li>
+                                }
+                            </ul>
+                            <p class="text-yellow-700 mt-2">
+                                Você precisa excluir todos esses registros antes de poder excluir este time.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="mb-6">
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-exclamation-triangle text-red-500"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-lg font-medium text-red-800">
+                                    Tem certeza que deseja excluir este time?
+                                </h3>
+                                <p class="text-red-700 mt-1">
+                                    Esta ação não pode ser desfeita. Todos os dados deste time serão removidos permanentemente.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
 
-        <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
+            <div class="flex flex-col md:flex-row">
+                <div class="w-full md:w-1/4 mb-4 md:mb-0 md:pr-4">
+                    <div class="bg-gray-100 rounded-lg p-4 text-center">
+                        <div class="inline-block w-24 h-24 rounded-full overflow-hidden mb-2 border-4" style="border-color: @Model.CorPrimaria; background-color: @Model.CorSecundaria;">
+                            <div class="w-full h-full flex items-center justify-center font-bold text-3xl text-white">
+                                @Model.Nome.Substring(0, 1)
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold">@Model.Nome</h3>
+                        <p class="text-gray-600">@Model.Cidade, @Model.Estado</p>
+                        <p class="text-gray-600">Fundado em @Model.AnoFundacao</p>
+                    </div>
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Cidade)
-        </dt>
+                <div class="w-full md:w-3/4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6">
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Nome</p>
+                            <p class="text-gray-900">@Model.Nome</p>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Cidade)
-        </dd>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Cidade</p>
+                            <p class="text-gray-900">@Model.Cidade</p>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Estado</p>
+                            <p class="text-gray-900">@Model.Estado</p>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Ano de Fundação</p>
+                            <p class="text-gray-900">@Model.AnoFundacao</p>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AnoFundacao)
-        </dt>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Estádio</p>
+                            <p class="text-gray-900">@Model.Estadio</p>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.AnoFundacao)
-        </dd>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Capacidade do Estádio</p>
+                            <p class="text-gray-900">@Model.CapacidadeEstadio.ToString("N0") espectadores</p>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Estadio)
-        </dt>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Cor Primária</p>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 mr-2 rounded-full" style="background-color: @Model.CorPrimaria"></div>
+                                <p class="text-gray-900">@Model.CorPrimaria</p>
+                            </div>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Estadio)
-        </dd>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Cor Secundária</p>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 mr-2 rounded-full" style="background-color: @Model.CorSecundaria"></div>
+                                <p class="text-gray-900">@Model.CorSecundaria</p>
+                            </div>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CapacidadeEstadio)
-        </dt>
+                        <div class="border-b pb-2">
+                            <p class="text-sm font-medium text-gray-500">Status</p>
+                            <p class="text-gray-900">@Model.Status</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.CapacidadeEstadio)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CorPrimaria)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CorPrimaria)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CorSecundaria)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CorSecundaria)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <div class="flex justify-end mt-6 space-x-2">
+                @if (ViewBag.TemReferencias != true)
+                {
+                    using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition">
+                            <i class="fas fa-trash mr-1"></i> Excluir
+                        </button>
+                    }
+                }
+                <a href="@Url.Action("Index")" class="bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-md transition">
+                    Voltar para a Lista
+                </a>
+            </div>
         </div>
-    }
+    </div>
 </div>

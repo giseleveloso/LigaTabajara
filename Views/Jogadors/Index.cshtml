@@ -1,87 +1,116 @@
 ﻿@model IEnumerable<LigaTabajara.Models.Jogador>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Jogadores";
 }
 
-<h2>Index</h2>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Jogadores</h2>
+        <a href="@Url.Action("Create")" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition">
+            Adicionar Jogador
+        </a>
+    </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Time.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataNascimento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nacionalidade)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Posicao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NumCamisa)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Altura)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Peso)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PePreferido)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Gols)
-        </th>
-        <th></th>
-    </tr>
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        @using (Html.BeginForm("Index", "Jogadors", FormMethod.Get, new { @class = "space-y-4 md:space-y-0 md:grid md:grid-cols-4 md:gap-4" }))
+        {
+            <div>
+                <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Nome:</label>
+                @Html.TextBox("nome", null, new { @class = "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" })
+            </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Time.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DataNascimento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nacionalidade)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Posicao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NumCamisa)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Altura)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Peso)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PePreferido)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gols)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+            <div>
+                <label for="posicao" class="block text-sm font-medium text-gray-700 mb-1">Posição:</label>
+                @Html.DropDownList("posicao", new SelectList(ViewBag.Posicoes as IEnumerable<string>), "Todas",
+                    new { @class = "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" })
+            </div>
 
-</table>
+            <div>
+                <label for="pePreferido" class="block text-sm font-medium text-gray-700 mb-1">Pé Preferido:</label>
+                @Html.DropDownList("pePreferido", new SelectList(ViewBag.Pes as IEnumerable<string>), "Todos",
+                    new { @class = "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" })
+            </div>
+
+            <div class="flex items-end">
+                <button type="submit" class="bg-gray-800 hover:bg-gray-900 text-white font-medium py-2 px-4 rounded-md transition w-full md:w-auto">
+                    <i class="fas fa-search mr-1"></i> Buscar
+                </button>
+            </div>
+        }
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Time</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Nome</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Data de Nascimento</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Posição</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Camisa</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Características</th>
+                        <th class="text-right py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                <a href="@Url.Action("Details", "Times", new { id = item.Time.Id })" class="text-blue-600 hover:text-blue-800">
+                                    @item.Time.Nome
+                                </a>
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium text-gray-900">
+                                @item.Nome
+                                <div class="text-sm text-gray-500">@item.Nacionalidade</div>
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                @item.DataNascimento.ToShortDateString()
+                                <div class="text-sm text-gray-500">
+                                    @{
+                                        var idade = DateTime.Now.Year - item.DataNascimento.Year;
+                                        if (DateTime.Now.DayOfYear < item.DataNascimento.DayOfYear){ idade--; };
+                                    }
+                                    @idade anos
+                                </div>
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                @item.Posicao
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center">
+                                <span class="inline-block w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center font-bold">
+                                    @item.NumCamisa
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-sm">@item.Altura m</span>
+                                    <span class="text-gray-400">|</span>
+                                    <span class="text-sm">@item.Peso kg</span>
+                                    <span class="text-gray-400">|</span>
+                                    <span class="text-sm">@item.PePreferido</span>
+                                </div>
+                            </td>
+                            
+                            <td class="py-3 px-4 border-b border-gray-200 text-right">
+                                <div class="flex space-x-2 justify-end">
+                                    <a href="@Url.Action("Edit", new { id = item.Id })" class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("Details", new { id = item.Id })" class="text-gray-600 hover:text-gray-800">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", new { id = item.Id })" class="text-red-600 hover:text-red-800">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

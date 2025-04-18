@@ -28,7 +28,11 @@ namespace LigaTabajara.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Time time = db.Times.Find(id);
+            var time = db.Times
+                 .Include(t => t.Jogadores)
+                 .Include(t => t.ComissaoTecnica)
+                 .FirstOrDefault(t => t.Id == id);
+
             if (time == null)
             {
                 return HttpNotFound();
@@ -53,7 +57,7 @@ namespace LigaTabajara.Controllers
             {
                 db.Times.Add(time);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(time);
@@ -85,7 +89,7 @@ namespace LigaTabajara.Controllers
             {
                 db.Entry(time).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             return View(time);
         }
@@ -97,11 +101,23 @@ namespace LigaTabajara.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Time time = db.Times.Find(id);
             if (time == null)
             {
                 return HttpNotFound();
             }
+
+            // Verificar se existem referências
+            bool temPartidas = db.Partidas.Any(p => p.TimeCasaId == id || p.TimeVisitanteId == id);
+            bool temJogadores = db.Jogadors.Any(j => j.TimeId == id);
+            bool temComissao = db.Comissaos.Any(c => c.TimeId == id);
+
+            ViewBag.TemReferencias = temPartidas || temJogadores || temComissao;
+            ViewBag.TemPartidas = temPartidas;
+            ViewBag.TemJogadores = temJogadores;
+            ViewBag.TemComissao = temComissao;
+
             return View(time);
         }
 
@@ -110,12 +126,31 @@ namespace LigaTabajara.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Time time = db.Times.Find(id);
-            db.Times.Remove(time);
+            // Verificar se existem referências
+            bool temPartidas = db.Partidas.Any(p => p.TimeCasaId == id || p.TimeVisitanteId == id);
+            bool temJogadores = db.Jogadors.Any(j => j.TimeId == id);
+            bool temComissao = db.Comissaos.Any(c => c.TimeId == id);
+
+            if (temPartidas || temJogadores || temComissao)
+            {
+                // Tem referências, retorna para a view com mensagem de erro
+                Time time = db.Times.Find(id);
+                ViewBag.TemReferencias = true;
+                ViewBag.TemPartidas = temPartidas;
+                ViewBag.TemJogadores = temJogadores;
+                ViewBag.TemComissao = temComissao;
+                ViewBag.ErrorMessage = "Não é possível excluir este time porque existem registros dependentes.";
+                return View(time);
+            }
+
+            // Não tem referências, pode excluir
+            Time timeToDelete = db.Times.Find(id);
+            db.Times.Remove(timeToDelete);
             db.SaveChanges();
+
+            TempData["SuccessMessage"] = "Time excluído com sucesso!";
             return RedirectToAction("Index");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

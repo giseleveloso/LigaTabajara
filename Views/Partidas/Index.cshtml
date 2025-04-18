@@ -1,63 +1,67 @@
 ﻿@model IEnumerable<LigaTabajara.Models.Partida>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Partidas";
 }
 
-<h2>Index</h2>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Partidas</h2>
+        <a href="@Url.Action("Create")" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition">
+            Nova Partida
+        </a>
+    </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeCasa.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeVisitante.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rodada)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataHora)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GolsTimeCasa)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GolsTimeVisitante)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TimeCasa.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TimeVisitante.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rodada)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DataHora)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GolsTimeCasa)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GolsTimeVisitante)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Time Casa</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Time Visitante</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Rodada</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Data e Hora</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Placar</th>
+                        <th class="text-right py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium text-gray-900">
+                                @Html.DisplayFor(modelItem => item.TimeCasa.Nome)
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium text-gray-900">
+                                @Html.DisplayFor(modelItem => item.TimeVisitante.Nome)
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                @Html.DisplayFor(modelItem => item.Rodada)
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                @item.DataHora.ToString("dd/MM/yyyy HH:mm")
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <span class="font-bold">@item.GolsTimeCasa</span>
+                                    <span class="text-gray-500">x</span>
+                                    <span class="font-bold">@item.GolsTimeVisitante</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-right">
+                                <div class="flex space-x-2 justify-end">
+                                    <a href="@Url.Action("Edit", new { id = item.Id })" class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("Details", new { id = item.Id })" class="text-gray-600 hover:text-gray-800">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <!-- Não será possível excluir uma partida, uma vez registrada não tem volta-->
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

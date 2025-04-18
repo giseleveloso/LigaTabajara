@@ -1,75 +1,75 @@
-﻿@model IEnumerable<LigaTabajara.Models.Classificacao>
-
+﻿
+@model IEnumerable<LigaTabajara.Models.Classificacao>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Classificação";
 }
 
-<h2>Index</h2>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Classificação</h2>
+    </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Time.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Pontos)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Vitorias)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Empates)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Derrotas)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GolsPro)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GolsContra)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SaldoGols)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Time.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Pontos)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Vitorias)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Empates)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Derrotas)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GolsPro)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GolsContra)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SaldoGols)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Pos.</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Time</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">P</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">V</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">E</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">D</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">GP</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">GC</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">SG</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int posicao = 1;
+                    }
+                    @foreach (var c in Model)
+                    {
+                        string rowClass = "";
+                        if (posicao <= 4)
+                        {
+                            rowClass = "bg-blue-50";
+                        }
+                        else if (posicao >= Model.Count() - 3)
+                        {
+                            rowClass = "bg-red-50";
+                        }
+                        <tr class="hover:bg-gray-50 @rowClass">
+                            <td class="py-3 px-4 border-b border-gray-200 text-center font-bold">@(posicao++)</td>
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium text-gray-900">
+                                <a href="@Url.Action("Details", "Times", new { id = c.Time.Id })" class="text-blue-600 hover:text-blue-800">
+                                    @c.Time.Nome
+                                </a>
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center font-bold">@c.Pontos</td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center">@c.Vitorias</td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center">@c.Empates</td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center">@c.Derrotas</td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center">@c.GolsPro</td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center">@c.GolsContra</td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-center font-bold">@c.SaldoGols</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="p-4 text-sm">
+            <div class="flex space-x-4">
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-blue-50 mr-2 border border-gray-200"></div>
+                    <span>Zona de classificação</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-red-50 mr-2 border border-gray-200"></div>
+                    <span>Zona de rebaixamento</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

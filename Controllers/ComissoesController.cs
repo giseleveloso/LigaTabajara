@@ -16,9 +16,18 @@ namespace LigaTabajara.Controllers
         private LigaTabajaraDbContext db = new LigaTabajaraDbContext();
 
         // GET: Comissoes
-        public ActionResult Index()
+        public ActionResult Index(string nome, string cargo)
         {
             var comissaos = db.Comissaos.Include(c => c.Time);
+            if (!string.IsNullOrEmpty(nome))
+                comissaos = comissaos.Where(j => j.Nome.Contains(nome));
+
+            if (!string.IsNullOrEmpty(cargo))
+                comissaos = comissaos.Where(j => j.Cargo.ToString() == cargo);
+
+            var cargos = Enum.GetNames(typeof(Cargo)).ToList();
+            ViewBag.Cargos = new SelectList(cargos);
+
             return View(comissaos.ToList());
         }
 
@@ -29,7 +38,7 @@ namespace LigaTabajara.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comissao comissao = db.Comissaos.Find(id);
+            Comissao comissao = db.Comissaos.Include(p => p.Time).FirstOrDefault(p => p.Id == id);
             if (comissao == null)
             {
                 return HttpNotFound();
@@ -51,16 +60,25 @@ namespace LigaTabajara.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Nome,Cargo,DataNascimento,TimeId")] Comissao comissao)
         {
+            // Verifica se o cargo já está atribuído ao time
+            bool cargoExiste = db.Comissaos.Any(c => c.TimeId == comissao.TimeId && c.Cargo == comissao.Cargo);
+
+            if (cargoExiste)
+            {
+                ModelState.AddModelError("Cargo", "Este cargo já está atribuído a um membro da comissão técnica deste time.");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Comissaos.Add(comissao);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.TimeId = new SelectList(db.Times, "Id", "Nome", comissao.TimeId);
             return View(comissao);
         }
+
 
         // GET: Comissoes/Edit/5
         public ActionResult Edit(int? id)
@@ -85,15 +103,27 @@ namespace LigaTabajara.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Nome,Cargo,DataNascimento,TimeId")] Comissao comissao)
         {
+            bool cargoExiste = db.Comissaos.Any(c =>
+                c.TimeId == comissao.TimeId &&
+                c.Cargo == comissao.Cargo &&
+                c.Id != comissao.Id);
+
+            if (cargoExiste)
+            {
+                ModelState.AddModelError("Cargo", "Este cargo já está atribuído a um membro da comissão técnica deste time.");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(comissao).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
+
             ViewBag.TimeId = new SelectList(db.Times, "Id", "Nome", comissao.TimeId);
             return View(comissao);
         }
+
 
         // GET: Comissoes/Delete/5
         public ActionResult Delete(int? id)
@@ -102,7 +132,9 @@ namespace LigaTabajara.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comissao comissao = db.Comissaos.Find(id);
+            Comissao comissao = db.Comissaos
+                .Include(p => p.Time)
+                .FirstOrDefault(p => p.Id == id);
             if (comissao == null)
             {
                 return HttpNotFound();

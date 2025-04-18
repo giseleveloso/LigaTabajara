@@ -1,42 +1,124 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Liga App</title>
+    <title>@ViewBag.Title - Liga Tabajara</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Movies" asp-action="Index">Movie App</a>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    <!-- Header com navegação -->
+    <header class="bg-gradient-to-r from-green-700 to-green-900 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <nav class="flex flex-wrap items-center justify-between py-4">
+                <!-- Logo e Nome -->
+                <div class="flex items-center">
+                    <a href="@Url.Action("Index", "Home")" class="flex items-center space-x-2">
+                        <i class="fas fa-futbol text-2xl"></i>
+                        <span class="text-xl font-bold">Liga Tabajara</span>
+                    </a>
+                </div>
 
-            @Html.ActionLink("Nome do aplicativo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar a navegação" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Página Inicial", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Sobre", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contato", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
+                <!-- Botão mobile -->
+                <div class="lg:hidden">
+                    <button id="menuToggle" class="flex items-center px-3 py-2 border rounded text-green-200 border-green-400 hover:text-white hover:border-white">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+
+                <!-- Links de navegação -->
+                <div id="menuItems" class="hidden w-full lg:flex lg:items-center lg:w-auto mt-4 lg:mt-0">
+                    <div class="text-sm lg:flex lg:space-x-2">
+                        <a href="@Url.Action("Index", "Home")" class="block lg:inline-block px-4 py-2 rounded hover:bg-green-600 transition-colors mb-1 lg:mb-0">
+                            Página Inicial
+                        </a>
+                        <a href="@Url.Action("Index", "Times")" class="block lg:inline-block px-4 py-2 rounded hover:bg-green-600 transition-colors mb-1 lg:mb-0">
+                            Times
+                        </a>
+                        <a href="@Url.Action("Index", "Jogadors")" class="block lg:inline-block px-4 py-2 rounded hover:bg-green-600 transition-colors mb-1 lg:mb-0">
+                            Jogadores
+                        </a>
+                        <a href="@Url.Action("Index", "Comissoes")" class="block lg:inline-block px-4 py-2 rounded hover:bg-green-600 transition-colors mb-1 lg:mb-0">
+                            Comissão Técnica
+                        </a>
+                        <a href="@Url.Action("Index", "Partidas")" class="block lg:inline-block px-4 py-2 rounded hover:bg-green-600 transition-colors mb-1 lg:mb-0">
+                            Partidas
+                        </a>
+                        <a href="@Url.Action("Index", "Classificacaos")" class="block lg:inline-block px-4 py-2 rounded hover:bg-green-600 transition-colors mb-1 lg:mb-0">
+                            Classificação
+                        </a>
+                        <a href="@Url.Action("Artilharia", "Classificacaos")" class="block lg:inline-block px-4 py-2 rounded hover:bg-green-600 transition-colors mb-1 lg:mb-0">
+                            Artilharia
+                        </a>
+                        <a href="@Url.Action("JogosEstadio", "Partidas")" class="block lg:inline-block px-4 py-2 rounded hover:bg-green-600 transition-colors mb-1 lg:mb-0">
+                            Partidas e Estádios
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main class="flex-grow py-8">
+        <div class="max-w-7xl mx-auto px-4">
+            @RenderBody()
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-800 text-white py-6 mt-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-2">Liga Tabajara</h3>
+                    <p class="text-gray-300 text-sm">
+                        O melhor campeonato de futebol brasileiro, reunindo os melhores times em competições emocionantes.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-2">Links Rápidos</h3>
+                    <ul class="text-gray-300 text-sm space-y-1">
+                        <li><a href="#" class="hover:text-white">Sobre nós</a></li>
+                        <li><a href="#" class="hover:text-white">Contato</a></li>
+                        <li><a href="#" class="hover:text-white">Regulamento</a></li>
+                        <li><a href="#" class="hover:text-white">Imprensa</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-2">Redes Sociais</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-youtube text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-4 text-sm text-gray-400 text-center">
+                &copy; @DateTime.Now.Year - Liga Tabajara - Todos os direitos reservados
             </div>
         </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Meu Aplicativo ASP.NET</p>
-        </footer>
-    </div>
+    </footer>
 
+    <!-- Scripts -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        // Menu responsivo toggle
+        document.getElementById('menuToggle').addEventListener('click', function () {
+            var menu = document.getElementById('menuItems');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

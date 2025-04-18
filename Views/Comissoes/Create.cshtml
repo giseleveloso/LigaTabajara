@@ -4,59 +4,55 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2 class="text-2xl font-semibold mb-6">Criar Nova Comissão Técnica</h2>
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Comissao</h4>
-        <hr />
+
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h4 class="text-xl font-semibold mb-4">Cadastro de Comissão Técnica</h4>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Nome -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" } })
+                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger mt-1" })
+            </div>
+
+            <!-- Cargo -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.Cargo, htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.EnumDropDownListFor(model => model.Cargo, htmlAttributes: new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" })
+                @Html.ValidationMessageFor(model => model.Cargo, "", new { @class = "text-danger mt-1" })
+            </div>
+
+            <!-- Data de Nascimento -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" } })
+                @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger mt-1" })
+            </div>
+
+            <!-- Time -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.TimeId, "Time", htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.DropDownList("TimeId", null, htmlAttributes: new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" })
+                @Html.ValidationMessageFor(model => model.TimeId, "", new { @class = "text-danger mt-1" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cargo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Cargo, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Cargo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TimeId, "TimeId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TimeId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TimeId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+        <!-- Botão de Enviar -->
+        <div class="flex justify-center mt-6">
+            <input type="submit" value="Criar" class="bg-blue-500 text-white p-2 rounded-md cursor-pointer hover:bg-blue-600" />
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<div class="mt-4">
+    @Html.ActionLink("Voltar para a Lista", "Index", new { @class = "text-blue-500 hover:text-blue-700" })
 </div>
 
 @section Scripts {

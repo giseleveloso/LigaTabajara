@@ -1,51 +1,91 @@
-﻿@model IEnumerable<LigaTabajara.Models.Comissao>
-
+﻿
+@model IEnumerable<LigaTabajara.Models.Comissao>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Comissão Técnica";
 }
 
-<h2>Index</h2>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Comissão Técnica</h2>
+        <a href="@Url.Action("Create")" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition">
+            Adicionar Membro
+        </a>
+    </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Time.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cargo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataNascimento)
-        </th>
-        <th></th>
-    </tr>
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        @using (Html.BeginForm("Index", "Comissoes", FormMethod.Get, new { @class = "space-y-4 md:space-y-0 md:grid md:grid-cols-3 md:gap-4" }))
+        {
+            <div>
+                <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Nome:</label>
+                @Html.TextBox("nome", null, new { @class = "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" })
+            </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Time.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cargo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DataNascimento)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+            <div>
+                <label for="cargo" class="block text-sm font-medium text-gray-700 mb-1">Cargo:</label>
+                @Html.DropDownList("cargo", ViewBag.Cargos as SelectList, "Todos",
+                    new { @class = "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" })
+            </div>
 
-</table>
+            <div class="flex items-end">
+                <button type="submit" class="bg-gray-800 hover:bg-gray-900 text-white font-medium py-2 px-4 rounded-md transition w-full md:w-auto">
+                    <i class="fas fa-search mr-1"></i> Buscar
+                </button>
+            </div>
+        }
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Time</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Nome</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Cargo</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Data de Nascimento</th>
+                        <th class="text-right py-3 px-4 font-semibold text-gray-700 border-b-2 border-gray-200">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                <a href="@Url.Action("Details", "Times", new { id = item.Time.Id })" class="text-blue-600 hover:text-blue-800">
+                                    @Html.DisplayFor(modelItem => item.Time.Nome)
+                                </a>
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium text-gray-900">
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                @Html.DisplayFor(modelItem => item.Cargo)
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200">
+                                @{
+                                    var idade = DateTime.Now.Year - item.DataNascimento.Year;
+                                    if (DateTime.Now.DayOfYear < item.DataNascimento.DayOfYear) { idade--; };
+                                }
+                                @item.DataNascimento.ToShortDateString()
+                                <div class="text-sm text-gray-500">@idade anos</div>
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-200 text-right">
+                                <div class="flex space-x-2 justify-end">
+                                    <a href="@Url.Action("Edit", new { id = item.Id })" class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("Details", new { id = item.Id })" class="text-gray-600 hover:text-gray-800">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", new { id = item.Id })" class="text-red-600 hover:text-red-800">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

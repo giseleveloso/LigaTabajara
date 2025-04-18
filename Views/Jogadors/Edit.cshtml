@@ -4,109 +4,98 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
-
+<h2 class="text-2xl font-semibold mb-6">Editar Jogador</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Jogador</h4>
-        <hr />
+
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h4 class="text-xl font-semibold mb-4">Edição de Jogador</h4>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Nome -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" } })
+                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger mt-1" })
+            </div>
+
+            <!-- Data de Nascimento -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" } })
+                @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger mt-1" })
+            </div>
+
+            <!-- Nacionalidade -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.Nacionalidade, htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.EditorFor(model => model.Nacionalidade, new { htmlAttributes = new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" } })
+                @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger mt-1" })
+            </div>
+
+            <!-- Posição -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.Posicao, htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.EnumDropDownListFor(model => model.Posicao, htmlAttributes: new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" })
+                @Html.ValidationMessageFor(model => model.Posicao, "", new { @class = "text-danger mt-1" })
+            </div>
+
+            <!-- Número da Camisa -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.NumCamisa, htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.EditorFor(model => model.NumCamisa, new { htmlAttributes = new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" } })
+                @Html.ValidationMessageFor(model => model.NumCamisa, "", new { @class = "text-danger mt-1" })
+            </div>
+
+            <!-- Altura -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.Altura, htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.EditorFor(model => model.Altura, new { htmlAttributes = new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" } })
+                @Html.ValidationMessageFor(model => model.Altura, "", new { @class = "text-danger mt-1" })
+            </div>
+
+            <!-- Peso -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.Peso, htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.EditorFor(model => model.Peso, new { htmlAttributes = new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" } })
+                @Html.ValidationMessageFor(model => model.Peso, "", new { @class = "text-danger mt-1" })
+            </div>
+
+            <!-- Pé Preferido -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.PePreferido, htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.EnumDropDownListFor(model => model.PePreferido, htmlAttributes: new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" })
+                @Html.ValidationMessageFor(model => model.PePreferido, "", new { @class = "text-danger mt-1" })
+            </div>
+
+            <!-- Time -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.TimeId, "Time", htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.DropDownList("TimeId", null, htmlAttributes: new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" })
+                @Html.ValidationMessageFor(model => model.TimeId, "", new { @class = "text-danger mt-1" })
+            </div>
+
+            <!-- Gols -->
+            <div class="flex flex-col mb-6">
+                @Html.LabelFor(model => model.Gols, htmlAttributes: new { @class = "font-medium text-gray-700" })
+                @Html.EditorFor(model => model.Gols, new { htmlAttributes = new { @class = "mt-1 p-2 border border-gray-300 rounded-lg" } })
+                @Html.ValidationMessageFor(model => model.Gols, "", new { @class = "text-danger mt-1" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nacionalidade, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nacionalidade, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Posicao, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Posicao, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Posicao, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumCamisa, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NumCamisa, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NumCamisa, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Altura, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Altura, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Altura, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Peso, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Peso, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Peso, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PePreferido, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.PePreferido, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PePreferido, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TimeId, "TimeId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TimeId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TimeId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Gols, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Gols, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Gols, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+        <!-- Botão de Enviar -->
+        <div class="flex justify-center mt-6">
+            <input type="submit" value="Salvar" class="bg-blue-500 text-white p-2 rounded-md cursor-pointer hover:bg-blue-600" />
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<div class="mt-4">
+    @Html.ActionLink("Voltar para a Lista", "Index", new { @class = "text-blue-500 hover:text-blue-700" })
 </div>
 
 @section Scripts {

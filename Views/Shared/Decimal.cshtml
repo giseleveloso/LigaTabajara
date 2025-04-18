@@ -1,0 +1,12 @@
+﻿@model decimal?
+@{
+    var attributes = ViewData["htmlAttributes"] as Dictionary<string, object> ?? new Dictionary<string, object>();
+    if (!attributes.ContainsKey("class"))
+        attributes["class"] = "mt-1 p-2 border border-gray-300 rounded-lg";
+    attributes["type"] = "text";
+
+    string value = null;
+    if (Model.HasValue)
+        value = string.Format("{0:0.00}", Model.Value).Replace(".", ",");
+}
+@Html.TextBox("", value, attributes)
